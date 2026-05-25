@@ -49,7 +49,7 @@ export default function About() {
             <motion.div
               variants={fade}
               custom={1}
-              className="relative"
+              className="relative mx-auto lg:mx-0"
               style={{ maxWidth: '280px' }}
             >
               {/* Outer orbit ring */}

@@ -874,3 +874,52 @@ body::before {
     0 0 0 1px rgba(139,92,246,0.18),
     0 0 40px rgba(139,92,246,0.06) !important;
 }
+
+/* ─── Mobile Responsiveness ────────────────────────────────────────
+   Only layout/overflow fixes — design, colours, and structure unchanged.
+──────────────────────────────────────────────────────────────────── */
+
+/* Prevent any single long word inside a heading from causing
+   horizontal overflow. hyphens: auto uses the html[lang] attribute
+   already set to "en" in layout.tsx. */
+h1, h2, h3, h4 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Ensure the site never scrolls horizontally on any screen size. */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* On very small phones (≤ 480px) reduce the minimum of display
+   heading clamp values so they scale down with the viewport instead
+   of being pinned at their pixel floor. */
+@media (max-width: 480px) {
+  /* Vision "infrastructure", About "Builder first.", etc. */
+  h1[style*="clamp"], h2[style*="clamp"] {
+    /* Let the vw portion drive; the browser's own layout engine will
+       respect overflow-wrap above for any word that still doesn't fit. */
+    max-width: 100%;
+  }
+
+  /* Scale down the intro loader name on tiny screens */
+  .font-display span[style*="clamp(58px"] {
+    font-size: clamp(36px, 10vw, 58px) !important;
+  }
+}
+
+/* Touch devices: disable hover-only transforms that can get "stuck" */
+@media (hover: none) {
+  .card-premium:hover,
+  .card-gold-hover:hover,
+  .card-emerald-hover:hover,
+  .card-purple-hover:hover {
+    transform: none;
+  }
+  .btn:hover {
+    transform: none;
+  }
+}

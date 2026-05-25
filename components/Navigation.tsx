@@ -84,7 +84,7 @@ export default function Navigation() {
             <span className="font-display text-[13px] font-bold text-accent leading-none tracking-tight">SH</span>
           </a>
 
-          {/* Links */}
+          {/* Links — hidden on mobile, visible sm+ */}
           {LINKS.map(l => (
             <NavLink key={l.id} href={`#${l.id}`} active={active === l.id}>
               {l.label}
@@ -92,13 +92,13 @@ export default function Navigation() {
           ))}
 
           {/* Divider */}
-          <span className="h-4 w-px bg-line-strong mx-1 shrink-0" />
+          <span className="hidden sm:block h-4 w-px bg-line-strong mx-1 shrink-0" />
 
-          {/* CTA — Premium */}
+          {/* CTA — Premium; hidden on mobile */}
           <a
             href="#contact"
             onClick={handleSayHello}
-            className="nav-cta group flex items-center gap-1.5 h-8 px-4 rounded-full text-white font-sans text-[12.5px] tracking-[0.005em] transition-all duration-400 active:scale-[0.97] overflow-hidden relative"
+            className="nav-cta group hidden sm:flex items-center gap-1.5 h-8 px-4 rounded-full text-white font-sans text-[12.5px] tracking-[0.005em] transition-all duration-400 active:scale-[0.97] overflow-hidden relative"
             style={{ fontWeight: 600 }}
           >
             <span
@@ -227,7 +227,7 @@ function NavLink({
   return (
     <a
       href={href}
-      className={`relative px-3.5 py-1.5 rounded-full text-[13px] font-medium tracking-[0.004em] transition-all duration-200 group ${
+      className={`hidden sm:flex relative px-3.5 py-1.5 rounded-full text-[13px] font-medium tracking-[0.004em] transition-all duration-200 group ${
         active ? 'text-white' : 'text-[var(--text-2)] hover:text-white'
       }`}
     >

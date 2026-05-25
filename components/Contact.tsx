@@ -252,7 +252,7 @@ export default function Contact() {
                       </motion.p>
                     )}
 
-                    <div className="flex items-center justify-between pt-2">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 pt-2">
                       <span className="text-[11px] font-mono text-ink-3 tracking-wide">
                         Replies within 72h · Usually sooner.
                       </span>
