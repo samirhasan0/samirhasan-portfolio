@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   title: 'Samir Hasan — Founder, Luminar Technology',
   description:
     'Samir Hasan is the founder and CEO of Luminar Technology — a family of ventures building the intelligent infrastructure for the next generation of software.',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export const viewport: Viewport = {
