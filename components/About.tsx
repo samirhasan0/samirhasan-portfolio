@@ -165,9 +165,9 @@ export default function About() {
               className="flex items-center gap-0 -mt-2"
             >
               {[
-                { val: '4+', label: 'Companies', delay: 0 },
+                { val: '7+', label: 'Companies', delay: 0 },
                 { val: '2020', label: 'Since', delay: 0.07 },
-                { val: '100+', label: 'Shipped', delay: 0.14 },
+                { val: '150+', label: 'Shipped', delay: 0.14 },
               ].map((m, i) => (
                 <motion.span
                   key={i}
