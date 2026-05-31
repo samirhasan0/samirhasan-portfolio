@@ -51,7 +51,7 @@ const projects: Project[] = [
   },
   {
     id: 'banglareels',
-    year: '2024',
+    year: '2026',
     name: 'BanglaReels Web',
     role: 'Product Lead',
     category: 'App & Web',
