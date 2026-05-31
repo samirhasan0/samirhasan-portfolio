@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const BPM  = 60;
@@ -111,9 +111,12 @@ function scheduleTone(
   });
 }
 
-type Props = { audioChoice: boolean | null };
+type Props = {
+  audioChoice: boolean | null;
+  audioCtxRef?: React.MutableRefObject<AudioContext | null>;
+};
 
-export default function MusicPlayer({ audioChoice }: Props) {
+export default function MusicPlayer({ audioChoice, audioCtxRef }: Props) {
   const [playing, setPlaying] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -144,7 +147,10 @@ export default function MusicPlayer({ audioChoice }: Props) {
     const AudioCtx =
       window.AudioContext ||
       (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!ctxRef.current) ctxRef.current = new AudioCtx();
+    if (!ctxRef.current) {
+      // Reuse the context created synchronously in the tap handler (needed for iOS)
+      ctxRef.current = audioCtxRef?.current ?? new AudioCtx();
+    }
     const ctx = ctxRef.current;
     if (ctx.state === 'suspended') await ctx.resume();
 
