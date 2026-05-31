@@ -59,6 +59,17 @@ const projects: Project[] = [
     stage: 'Live',
     url: 'https://www.memorica.events',
   },
+  {
+    id: 'autoworx',
+    year: '2025',
+    name: 'AutoWorx',
+    role: 'Founder',
+    category: 'ERP / CRM',
+    one: 'A complete ERP and CRM solution built specifically for the automobile industry — covering inventory, service management, customer relationships, invoicing, and workshop operations in one unified platform.',
+    highlights: ['Founder', 'Full-Stack Platform', 'autoworx.tech'],
+    stage: 'Live',
+    url: 'https://autoworx.tech/',
+  },
 ];
 
 export default function Work() {
@@ -182,6 +193,18 @@ export default function Work() {
                         <span className={`chip transition-opacity ${isActive ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'}`}>
                           {p.stage}
                         </span>
+                        {p.url && (
+                          <a
+                            href={p.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-medium text-accent border border-accent/30 bg-accent/8 hover:bg-accent/15 hover:border-accent/60 hover:text-accent transition-all duration-200"
+                          >
+                            Visit
+                            <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </a>
+                        )}
                         <motion.div animate={{ rotate: isActive ? 180 : 0 }} transition={{ duration: 0.35, ease: [0.2, 0.6, 0.2, 1] }}>
                           <ChevronIcon />
                         </motion.div>
