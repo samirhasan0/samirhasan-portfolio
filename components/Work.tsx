@@ -72,7 +72,7 @@ const projects: Project[] = [
     highlights: ['Product Lead', 'iOS & Android', 'App Store · Play Store'],
     stage: 'Live',
     appStoreUrl: 'https://apps.apple.com/pl/app/banglareels-short-drama-fun/id6755810957',
-    playStoreUrl: 'https://apps.apple.com/pl/app/banglareels-short-drama-fun/id6755810957',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.luminar.banglareelsnative&hl=en',
   },
   {
     id: 'tc-customs',
