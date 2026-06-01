@@ -13,6 +13,8 @@ type Project = {
   highlights: string[];
   stage: string;
   url?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
 };
 
 const projects: Project[] = [
@@ -59,6 +61,18 @@ const projects: Project[] = [
     highlights: ['Product Lead', 'App & Web Platform', 'banglareels.com'],
     stage: 'Live',
     url: 'https://banglareels.com',
+  },
+  {
+    id: 'banglareels-app',
+    year: '2026',
+    name: 'BanglaReels App',
+    role: 'Product Lead',
+    category: 'Mobile App',
+    one: 'The native mobile app for BanglaReels — a short-video and drama platform for Bangla-speaking audiences, available on both iOS and Android.',
+    highlights: ['Product Lead', 'iOS & Android', 'App Store · Play Store'],
+    stage: 'Live',
+    appStoreUrl: 'https://apps.apple.com/pl/app/banglareels-short-drama-fun/id6755810957',
+    playStoreUrl: 'https://apps.apple.com/pl/app/banglareels-short-drama-fun/id6755810957',
   },
   {
     id: 'tc-customs',
@@ -214,6 +228,30 @@ export default function Work() {
                             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-medium text-accent border border-accent/30 bg-accent/8 hover:bg-accent/15 hover:border-accent/60 hover:text-accent transition-all duration-200"
                           >
                             Visit
+                            <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </a>
+                        )}
+                        {p.appStoreUrl && (
+                          <a
+                            href={p.appStoreUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-medium text-accent border border-accent/30 bg-accent/8 hover:bg-accent/15 hover:border-accent/60 hover:text-accent transition-all duration-200"
+                          >
+                            App Store
+                            <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </a>
+                        )}
+                        {p.playStoreUrl && (
+                          <a
+                            href={p.playStoreUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-medium text-accent border border-accent/30 bg-accent/8 hover:bg-accent/15 hover:border-accent/60 hover:text-accent transition-all duration-200"
+                          >
+                            Play Store
                             <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                           </a>
                         )}
