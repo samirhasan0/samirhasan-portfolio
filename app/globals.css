@@ -531,7 +531,7 @@ body::before {
 .marquee-track {
   display: flex;
   gap: 0;
-  animation: marquee-x 46s linear infinite;
+  animation: marquee-x 28s linear infinite;
   will-change: transform;
 }
 
