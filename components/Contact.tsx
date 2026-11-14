@@ -1,31 +1,24 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, FormEvent } from 'react';
+import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState, type FormEvent } from 'react';
+import { EMAIL, LINKEDIN, socials, ventures } from './data';
+import { ArrowRight, ArrowUpRight, ChapterLabel, DhakaTime, EASE, Lines } from './ui';
 
-const reasons = [
-  'Work together',
-  'Hire / speaking',
-  'Venture pitch',
-  'Just say hi',
-];
+const reasons = ['Start a project', 'Partnership', 'Venture pitch', 'Just say hi'];
 
 export default function Contact() {
-  const [reason, setReason] = useState('Work together');
-  const [done, setDone] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState(false);
-  const [popKey, setPopKey] = useState(0);
-
+  const [reason, setReason] = useState(reasons[0]);
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    setSending(true);
-    setError(false);
+    setState('sending');
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -33,584 +26,201 @@ export default function Contact() {
         body: JSON.stringify({ name, company, email, message, reason }),
       });
       if (!res.ok) throw new Error('failed');
-      setDone(true);
-      setTimeout(() => setDone(false), 5000);
+      setState('done');
+      setName('');
+      setCompany('');
+      setEmail('');
+      setMessage('');
+      setTimeout(() => setState('idle'), 6000);
     } catch {
-      setError(true);
-    } finally {
-      setSending(false);
+      setState('error');
     }
   };
 
   return (
-    <>
-      <section id="contact" className="relative py-28 md:py-44 overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-alt/60 to-transparent" />
-        {/* Ambient glow */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[50vh] w-[70vw]"
-          style={{
-            background:
-              'radial-gradient(ellipse, rgba(37,99,235,0.14) 0%, transparent 70%)',
-            filter: 'blur(70px)',
-          }}
-        />
+    <section id="contact" className="relative">
+      {/* Title over the portal */}
+      <div className="flex min-h-[100svh] flex-col items-center justify-end px-[var(--gutter)] pb-[14vh] text-center [text-shadow:0_1px_2px_rgba(0,3,11,0.9),0_0_18px_rgba(0,3,11,0.75)]">
+        <ChapterLabel n={6}>Contact</ChapterLabel>
+        <h2 className="display glow-text mt-6 text-[clamp(44px,8vw,136px)]">
+          <Lines lines={['Let’s talk.']} />
+        </h2>
+        <motion.a
+          href={`mailto:${EMAIL}`}
+          className="group mt-10 inline-flex items-center gap-4 text-[clamp(18px,2vw,26px)]"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: EASE, delay: 0.3 }}
+        >
+          <span className="u-link">{EMAIL}</span>
+          <span className="grid h-10 w-10 place-items-center border border-line-3 transition-all duration-500 ease-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-bg">
+            <ArrowUpRight />
+          </span>
+        </motion.a>
+      </div>
 
-        <div className="relative z-10 mx-auto max-w-site px-5 sm:px-8">
-          {/* Header */}
-          <div className="mb-14 md:mb-20">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.2, 0.6, 0.2, 1] }}
-              className="eyebrow mb-7"
-            >
-              05 — Contact
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.9, ease: [0.2, 0.6, 0.2, 1] }}
-              className="font-display tracking-ultra text-white leading-[1.0]"
-              style={{ fontSize: 'clamp(42px, 7vw, 96px)' }}
-            >
-              Let&apos;s talk.
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: 0.15,
-                duration: 0.8,
-                ease: [0.2, 0.6, 0.2, 1],
-              }}
-              className="mt-6 text-[17px] text-ink-2 max-w-prose leading-[1.7]"
-              style={{ fontWeight: 300 }}
-            >
-              I read everything personally. Short messages with clear intent get
-              the fastest responses. Pitches, proposals, and introductions are
-              all welcome.
-            </motion.p>
+      {/* Panel */}
+      <div className="px-[var(--gutter)] pb-24">
+        <motion.div
+          className="glass mx-auto grid max-w-[1180px] grid-cols-1 lg:grid-cols-12"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-10% 0px' }}
+          transition={{ duration: 1.2, ease: EASE }}
+        >
+          <div className="flex flex-col justify-between gap-10 border-b border-line-2 p-6 md:p-10 lg:col-span-5 lg:border-b-0 lg:border-r">
+            <div className="flex items-center gap-4">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-line-3">
+                <Image src="/samir.jpg" alt="Samir Hasan" fill sizes="64px" className="object-cover grayscale" />
+              </div>
+              <div>
+                <p className="display text-[18px]">Samir Hasan</p>
+                <p className="text-[13px] text-ink-2">Founder & CEO, Luminar Technology</p>
+              </div>
+            </div>
+            <p className="max-w-[380px] text-[16px] leading-[1.65] text-ink-2">
+              I read everything personally. Short messages with clear intent get the fastest responses.
+              Pitches, proposals, and introductions are all welcome.
+            </p>
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-5">
+              {[
+                { k: 'Direct', v: EMAIL, href: `mailto:${EMAIL}` },
+                { k: 'LinkedIn', v: LINKEDIN.handle, href: LINKEDIN.href },
+                { k: 'Ventures', v: 'luminartechnology.com', href: 'https://luminartechnology.com' },
+                { k: 'Location', v: 'Dhaka, Bangladesh' },
+                { k: 'Local time', v: <DhakaTime /> },
+              ].map((d) => (
+                <div key={d.k} className="min-w-0 border-t border-line-2 pt-3">
+                  <dt className="label">{d.k}</dt>
+                  <dd className="mt-1.5 truncate text-[14px] text-ink">
+                    {d.href ? (
+                      <a href={d.href} target={d.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="u-link">
+                        {d.v}
+                      </a>
+                    ) : (
+                      d.v
+                    )}
+                  </dd>
+                </div>
+              ))}
+              <div className="col-span-2 border-t border-line-2 pt-3">
+                <dt className="label">Currently</dt>
+                <dd className="mt-1.5 flex items-center gap-2 text-[14px] text-ink-2">
+                  <span className="live-dot" /> Building Luminar / OS · Private Beta
+                </dd>
+              </div>
+            </dl>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Form */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.85, ease: [0.2, 0.6, 0.2, 1] }}
-              className="lg:col-span-7 glass-strong rounded-3xl p-7 sm:p-10 relative overflow-hidden"
-            >
-              {/* Top accent line */}
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent" />
-              {/* Corner glow */}
-              <div
-                className="pointer-events-none absolute top-0 right-0 h-32 w-32 opacity-30"
-                style={{
-                  background:
-                    'radial-gradient(circle at top right, rgba(37,99,235,0.15) 0%, transparent 70%)',
-                }}
-              />
-
-              <AnimatePresence mode="wait">
-                {done ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, ease: [0.2, 0.6, 0.2, 1] }}
-                    className="flex flex-col items-center justify-center gap-6 py-16 text-center"
-                  >
-                    {/* Check mark */}
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.1, type: 'spring', bounce: 0.4 }}
-                      className="h-16 w-16 rounded-full bg-accent/15 border border-accent/40 flex items-center justify-center"
-                      style={{ boxShadow: '0 0 30px rgba(37,99,235,0.25)' }}
+          <form onSubmit={submit} className="p-6 md:p-10 lg:col-span-7">
+            <fieldset>
+              <legend className="label mb-4">Reason</legend>
+              <div className="flex flex-wrap gap-2">
+                {reasons.map((r) => {
+                  const on = r === reason;
+                  return (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setReason(r)}
+                      aria-pressed={on}
+                      className={`relative isolate border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors duration-300 ${
+                        on ? 'border-accent text-bg' : 'border-line-2 text-ink-2 hover:border-line-3 hover:text-ink'
+                      }`}
                     >
-                      <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 28 28"
-                        fill="none"
-                      >
-                        <motion.path
-                          d="M5 14l7 7L23 7"
-                          stroke="#60A5FA"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ delay: 0.3, duration: 0.5 }}
-                        />
-                      </svg>
-                    </motion.div>
-                    <div>
-                      <p className="font-display text-[28px] text-white tracking-tight">
-                        Message sent.
-                      </p>
-                      <p className="mt-2 text-[15px] text-ink-2 font-light">
-                        I&apos;ll get back to you within 72 hours.
-                      </p>
-                    </div>
-                  </motion.div>
+                      {on && <motion.span layoutId="reason" className="absolute inset-0 -z-10 bg-accent" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />}
+                      {r}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+
+            <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-1 md:grid-cols-2">
+              <label className="block">
+                <span className="sr-only">Name</span>
+                <input className="field" placeholder="Your name *" required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
+              </label>
+              <label className="block">
+                <span className="sr-only">Company or role</span>
+                <input className="field" placeholder="Company / role" value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" />
+              </label>
+              <label className="block md:col-span-2">
+                <span className="sr-only">Email</span>
+                <input className="field" type="email" placeholder="Email address *" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+              </label>
+              <label className="block md:col-span-2">
+                <span className="sr-only">Message</span>
+                <textarea className="field" rows={4} placeholder="Tell me what you’re building *" required value={message} onChange={(e) => setMessage(e.target.value)} />
+              </label>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+              <AnimatePresence mode="wait">
+                {state === 'done' ? (
+                  <motion.p key="done" className="text-[14px] text-accent" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    Message sent — I’ll be in touch.
+                  </motion.p>
+                ) : state === 'error' ? (
+                  <motion.p key="err" className="text-[14px] text-[#ff8a8a]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    Something went wrong. Email me directly instead.
+                  </motion.p>
                 ) : (
-                  <motion.form
-                    key="form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onSubmit={submit}
-                    className="space-y-8"
-                  >
-                    {/* Reason chips */}
-                    <div>
-                      <FieldLabel>Reason</FieldLabel>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {reasons.map((r) => {
-                          const isSelected = reason === r;
-                          return (
-                            <motion.button
-                              key={r}
-                              type="button"
-                              onClick={() => {
-                                setReason(r);
-                                setPopKey((k) => k + 1);
-                              }}
-                              whileHover={{ scale: 1.04 }}
-                              whileTap={{ scale: 0.94 }}
-                              transition={{
-                                type: 'spring',
-                                stiffness: 380,
-                                damping: 22,
-                              }}
-                              className={`px-3.5 py-2 rounded-full text-[12px] font-mono tracking-wide transition-all duration-300 backdrop-blur-sm ${
-                                isSelected
-                                  ? 'bg-[rgba(37,99,235,0.18)] border border-[rgba(96,165,250,0.55)] text-white shadow-[0_0_20px_rgba(37,99,235,0.30),0_0_0_1px_rgba(212,176,104,0.20)_inset]'
-                                  : 'bg-[rgba(37,99,235,0.05)] border border-[rgba(96,165,250,0.15)] text-[#E2E8F0] hover:border-[rgba(96,165,250,0.40)] hover:text-white hover:bg-[rgba(37,99,235,0.10)] hover:shadow-[0_0_14px_rgba(37,99,235,0.20)]'
-                              }`}
-                            >
-                              {r}
-                            </motion.button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <AnimatedInputField
-                        label="Name"
-                        placeholder="Your name"
-                        value={name}
-                        onChange={setName}
-                        required
-                      />
-                      <AnimatedInputField
-                        label="Company / Role"
-                        placeholder="Where you're from"
-                        value={company}
-                        onChange={setCompany}
-                      />
-                    </div>
-
-                    <AnimatedInputField
-                      label="Email"
-                      placeholder="your@email.com"
-                      type="email"
-                      value={email}
-                      onChange={setEmail}
-                      required
-                    />
-
-                    <div>
-                      <FieldLabel>Message</FieldLabel>
-                      <textarea
-                        rows={5}
-                        required
-                        placeholder="Keep it direct. A paragraph is plenty."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        className="mt-3 w-full bg-transparent border-0 border-b border-line text-white placeholder-ink-3 text-[15px] focus:outline-none focus:border-accent pb-3 transition-colors resize-none leading-relaxed"
-                        style={{ fontWeight: 300 }}
-                      />
-                    </div>
-
-                    {error && (
-                      <motion.p
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-[13px] text-red-400 font-mono"
-                      >
-                        Something went wrong. Please try again.
-                      </motion.p>
-                    )}
-
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 pt-2">
-                      <span className="text-[11px] font-mono text-ink-3 tracking-wide">
-                        Replies within 72h · Usually sooner.
-                      </span>
-                      <motion.button
-                        type="submit"
-                        className="btn btn-primary"
-                        data-cursor
-                        disabled={sending}
-                        whileHover={sending ? {} : { scale: 1.03 }}
-                        whileTap={sending ? {} : { scale: 0.97 }}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 380,
-                          damping: 22,
-                        }}
-                      >
-                        <AnimatePresence mode="wait">
-                          {sending ? (
-                            <motion.span
-                              key="sending"
-                              initial={{ opacity: 0, y: 6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -6 }}
-                              transition={{ duration: 0.2 }}
-                              className="flex items-center gap-2"
-                            >
-                              <span className="h-3 w-3 rounded-full border border-current border-t-transparent animate-spin" />
-                              Sending…
-                            </motion.span>
-                          ) : (
-                            <motion.span
-                              key={error ? 'retry' : 'idle'}
-                              initial={{ opacity: 0, y: 6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -6 }}
-                              transition={{ duration: 0.2 }}
-                              className="flex items-center gap-2"
-                            >
-                              {error ? 'Resend' : 'Send message'} <Arrow />
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </motion.button>
-                    </div>
-                  </motion.form>
+                  <motion.p key="idle" className="label" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    Replies within 72h · Usually sooner.
+                  </motion.p>
                 )}
               </AnimatePresence>
-            </motion.div>
+              <button type="submit" disabled={state === 'sending'} className="btn btn-solid disabled:opacity-60">
+                {state === 'sending' ? 'Sending…' : 'Send message'} <ArrowRight size={12} />
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
 
-            {/* Info column */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{
-                delay: 0.12,
-                duration: 0.85,
-                ease: [0.2, 0.6, 0.2, 1],
-              }}
-              className="lg:col-span-5 space-y-3"
-            >
-              {[
-                {
-                  label: 'Direct',
-                  value: 'hello@samirhasan.com',
-                  href: 'mailto:hello@samirhasan.com',
-                },
-                {
-                  label: 'LinkedIn',
-                  value: 'samir-hasan',
-                  href: 'https://www.linkedin.com/in/samir-hasan-18048524a/',
-                },
-                {
-                  label: 'Ventures',
-                  value: 'luminartechnology.com',
-                  href: 'https://luminartechnology.com',
-                  target: '_blank' as const,
-                },
-                { label: 'Location', value: 'Dhaka, Bangladesh', href: '#', target: undefined as undefined },
-              ].map((c, i) => (
-                <motion.a
-                  key={c.label}
-                  href={c.href}
-                  target={c.target}
-                  rel={c.target === '_blank' ? 'noopener noreferrer' : undefined}
-                  initial={{ opacity: 0, x: 16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    delay: 0.1 + i * 0.07,
-                    duration: 0.65,
-                    ease: [0.2, 0.6, 0.2, 1],
-                  }}
-                  whileHover={{ x: 3 }}
-                  className="glass rounded-2xl p-5 flex items-center justify-between group hover:border-accent/22 hover:bg-surface-strong transition-all"
-                  data-cursor
-                >
-                  <div>
-                    <div className="text-[10px] font-mono tracking-widest uppercase text-ink-3 mb-1.5">
-                      {c.label}
-                    </div>
-                    <div className="text-[14px] text-ink group-hover:text-white transition-colors">
-                      {c.value}
-                    </div>
-                  </div>
-                  <ExternalIcon />
-                </motion.a>
+      {/* Footer — as on samirhasan.com */}
+      <footer className="relative border-t border-line bg-[linear-gradient(180deg,rgba(0,3,11,0.55),rgba(0,3,11,0.92))] px-[var(--gutter)] pb-8 pt-14 backdrop-blur-xl">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-10 md:grid-cols-12">
+          <div className="col-span-2 md:col-span-6">
+            <p className="display hl w-fit text-[clamp(26px,2.6vw,36px)] tracking-[0.04em]">Samir Hasan</p>
+            <p className="label mt-3">Founder · Luminar Technology · Dhaka</p>
+            <p className="label mt-5 flex items-center gap-2.5 text-ink-2">
+              <span className="live-dot" /> Open to new conversations
+            </p>
+          </div>
+          <nav className="md:col-span-2" aria-label="Connect">
+            <p className="label mb-4">Connect</p>
+            <ul className="flex flex-col gap-2.5">
+              {socials.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="u-link text-[14px] text-ink-2 hover:text-ink">
+                    {s.label}
+                  </a>
+                </li>
               ))}
-
-              {/* Status card */}
-              <motion.div
-                initial={{ opacity: 0, x: 16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  delay: 0.42,
-                  duration: 0.65,
-                  ease: [0.2, 0.6, 0.2, 1],
-                }}
-                className="glass rounded-2xl p-5 relative overflow-hidden"
-              >
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-                <div className="text-[10px] font-mono tracking-widest uppercase text-ink-3 mb-3">
-                  Currently
-                </div>
-                <div className="flex items-center gap-2.5 text-[14px] text-ink-2">
-                  <span className="pulse-dot-wrap">
-                    <span className="dot" />
-                  </span>
-                  Building Luminar / OS · Private Beta
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
+            </ul>
+          </nav>
+          <nav className="md:col-span-4" aria-label="Ventures">
+            <p className="label mb-4">Ventures</p>
+            <ul className="flex flex-col gap-2.5">
+              {ventures.map((v) => (
+                <li key={v.label}>
+                  <a href={v.href} target="_blank" rel="noopener noreferrer" className="u-link text-[14px] text-ink-2 hover:text-ink">
+                    {v.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="relative overflow-hidden" style={{ borderTop: '1px solid var(--border)' }}>
-        {/* Subtle gradient background */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(180deg, transparent 0%, rgba(15,26,46,0.40) 100%)',
-          }}
-        />
-        {/* Top accent line */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/35 to-transparent" />
-        {/* Gold shimmer */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" style={{ animationDelay: '2s' }} />
-
-        <div className="relative z-10 mx-auto max-w-site px-5 sm:px-8 py-14 md:py-20">
-          {/* Main footer row */}
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-0">
-            {/* Brand column */}
-            <div className="flex flex-col gap-4">
-              <div>
-                <span className="font-display italic text-[30px] text-gradient leading-none">
-                  Samir Hasan
-                </span>
-                <p className="mt-2 text-[11px] font-mono text-ink-3 tracking-[0.20em] uppercase">
-                  Founder · Luminar Technology · Dhaka
-                </p>
-              </div>
-              {/* Live badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border-line text-[10px] font-mono tracking-wide text-ink-3 w-fit">
-                <span className="pulse-dot-wrap scale-75">
-                  <span className="dot" />
-                </span>
-                Open to new conversations
-              </div>
-            </div>
-
-            {/* Links columns */}
-            <div className="flex flex-wrap gap-10 sm:gap-16">
-              <div>
-                <p className="text-[9.5px] font-mono tracking-[0.22em] uppercase text-ink-3 mb-4">
-                  Connect
-                </p>
-                <div className="flex flex-col gap-3">
-                  {[
-                    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samir-hasan-18048524a/', icon: <LinkedInIcon /> },
-                    { label: 'Instagram', href: 'https://www.instagram.com/samir_hasann_/', icon: <InstagramIcon /> },
-                  ].map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target={s.href !== '#' ? '_blank' : undefined}
-                      rel={s.href !== '#' ? 'noopener noreferrer' : undefined}
-                      className="flex items-center gap-2.5 text-[13px] text-ink-2 hover:text-white transition-colors duration-200 group"
-                      data-cursor
-                    >
-                      <span className="text-ink-3 group-hover:text-accent transition-colors duration-200">
-                        {s.icon}
-                      </span>
-                      <span className="relative">
-                        {s.label}
-                        <span className="absolute -bottom-px left-0 h-px w-0 group-hover:w-full bg-accent/50 transition-all duration-300" />
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="text-[9.5px] font-mono tracking-[0.22em] uppercase text-ink-3 mb-4">
-                  Ventures
-                </p>
-                <div className="flex flex-col gap-3">
-                  {[
-                    { label: 'Luminar Technology', href: 'https://luminartechnology.com' },
-                    { label: 'AutoWorx', href: 'https://autoworx.tech/' },
-                    { label: 'Prenda Solution', href: 'https://prendasolution.com' },
-                    { label: 'BanglaReels', href: 'https://banglareels.com' },
-                    { label: 'Memorica', href: 'https://www.memorica.events' },
-                  ].map((v) => (
-                    <a
-                      key={v.label}
-                      href={v.href}
-                      target={v.href !== '#' ? '_blank' : undefined}
-                      rel={v.href !== '#' ? 'noopener noreferrer' : undefined}
-                      className="text-[13px] text-ink-2 hover:text-white transition-colors duration-200 relative group"
-                      data-cursor
-                    >
-                      {v.label}
-                      <span className="absolute -bottom-px left-0 h-px w-0 group-hover:w-full bg-gold/40 transition-all duration-300" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div
-            className="mt-12 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[11px] font-mono text-ink-3"
-            style={{ borderTop: '1px solid var(--border)' }}
-          >
-            <span>© 2026 Samir Hasan. All rights reserved.</span>
-            <span
-              style={{
-                background: 'linear-gradient(90deg, var(--text-3), rgba(96,165,250,0.6))',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-              }}
-            >
-              Built with purpose · Dhaka, BD
-            </span>
-          </div>
+        <div className="mx-auto mt-14 flex max-w-[1180px] flex-col gap-3 border-t border-line pt-6 md:flex-row md:items-center md:justify-between">
+          <span className="label">© {new Date().getFullYear()} Samir Hasan. All rights reserved.</span>
+          <a href="#top" className="label text-ink-2 hover:text-ink">Back to start ↑</a>
+          <span className="label">Built with purpose · Dhaka, BD</span>
         </div>
       </footer>
-    </>
-  );
-}
-
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="block text-[11px] font-mono tracking-widest uppercase text-ink-3">
-      {children}
-    </span>
-  );
-}
-
-function AnimatedInputField({
-  label,
-  placeholder,
-  type = 'text',
-  value,
-  onChange,
-  required,
-}: {
-  label: string;
-  placeholder: string;
-  type?: string;
-  value: string;
-  onChange: (v: string) => void;
-  required?: boolean;
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div className="relative">
-      <FieldLabel>{label}</FieldLabel>
-      <input
-        type={type}
-        placeholder={placeholder}
-        required={required}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className="mt-3 w-full bg-transparent border-0 border-b text-white placeholder-ink-3 text-[15px] focus:outline-none pb-3 transition-colors"
-        style={{
-          fontWeight: 300,
-          borderBottomColor: focused
-            ? 'var(--accent)'
-            : 'rgba(255,255,255,0.065)',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-0 h-px bg-accent"
-        animate={{ width: focused ? '100%' : '0%', opacity: focused ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: [0.2, 0.6, 0.2, 1] }}
-        style={{ boxShadow: '0 0 8px rgba(37,99,235,0.6)' }}
-      />
-    </div>
-  );
-}
-
-function Arrow() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-      <path
-        d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ExternalIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="none"
-      className="text-ink-3 group-hover:text-white transition-colors"
-    >
-      <path
-        d="M2 12L12 2M12 2H5M12 2V9"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function LinkedInIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-      <rect x="2" y="9" width="4" height="12"/>
-      <circle cx="4" cy="4" r="2"/>
-    </svg>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-    </svg>
+    </section>
   );
 }

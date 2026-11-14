@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const BPM  = 60;
 const BEAT = 60 / BPM;
@@ -119,7 +119,6 @@ type Props = {
 export default function MusicPlayer({ audioChoice, audioCtxRef }: Props) {
   const [playing, setPlaying] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   const ctxRef    = useRef<AudioContext | null>(null);
   const masterRef = useRef<GainNode | null>(null);
@@ -210,7 +209,7 @@ export default function MusicPlayer({ audioChoice, audioCtxRef }: Props) {
 
     tick();
     tickerRef.current = setInterval(tick, 25);
-  }, []);
+  }, [audioCtxRef]);
 
   // Auto-start or stay silent based on user's choice from the loader
   useEffect(() => {
@@ -234,102 +233,28 @@ export default function MusicPlayer({ audioChoice, audioCtxRef }: Props) {
   if (!mounted || audioChoice === null) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.7, y: 14 }}
-      animate={{ opacity: 1, scale: 1,   y: 0  }}
-      transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed bottom-6 right-6 z-50"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <motion.button
+      onClick={toggle}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.6, duration: 1 }}
+      aria-label={playing ? 'Turn ambient sound off' : 'Turn ambient sound on'}
+      aria-pressed={playing}
+      className="hud group fixed right-[calc(var(--gutter)+36px)] top-[19px] sm:right-[calc(var(--gutter)+96px)] z-[60] flex h-11 items-center gap-3 px-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-2 transition-colors hover:text-ink md:top-[29px]"
     >
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            initial={{ opacity: 0, x: 10, scale: 0.94 }}
-            animate={{ opacity: 1, x: 0,  scale: 1    }}
-            exit={{    opacity: 0, x: 10, scale: 0.94 }}
-            transition={{ duration: 0.2 }}
-            className="absolute right-[52px] top-1/2 -translate-y-1/2 pointer-events-none"
-          >
-            <div
-              className="glass rounded-lg px-3 py-1.5 whitespace-nowrap"
-              style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.35)' }}
-            >
-              <span className="text-[10px] font-mono tracking-[0.18em] uppercase" style={{ color: 'var(--text-3)' }}>
-                {playing ? 'ambient · on' : 'ambient · off'}
-              </span>
-            </div>
-            <span
-              className="absolute right-[-5px] top-1/2 -translate-y-1/2 border-4 border-transparent"
-              style={{ borderLeftColor: 'rgba(96,165,250,0.10)' }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Button blinks when music is off */}
-      <motion.button
-        onClick={toggle}
-        aria-label={playing ? 'Stop ambient music' : 'Play ambient music'}
-        animate={!playing ? { opacity: [1, 0.38, 1] } : { opacity: 1 }}
-        transition={
-          !playing
-            ? { duration: 1.6, repeat: Infinity, ease: 'easeInOut' }
-            : { duration: 0.3 }
-        }
-        className="relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300 hover:scale-110 active:scale-[0.93] focus:outline-none"
-        style={{
-          background: playing
-            ? 'linear-gradient(135deg, rgba(37,99,235,0.22) 0%, rgba(96,165,250,0.14) 100%)'
-            : 'rgba(11,18,32,0.82)',
-          border: playing ? '1px solid rgba(96,165,250,0.42)' : '1px solid rgba(96,165,250,0.16)',
-          backdropFilter: 'blur(20px) saturate(160%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-          boxShadow: playing
-            ? '0 0 0 1px rgba(96,165,250,0.12) inset, 0 0 28px rgba(96,165,250,0.28), 0 8px 28px rgba(0,0,0,0.55)'
-            : '0 0 0 1px rgba(96,165,250,0.05) inset, 0 8px 24px rgba(0,0,0,0.45)',
-        }}
-      >
-        {playing && (
-          <>
-            <motion.span
-              className="absolute inset-0 rounded-full"
-              style={{ border: '1px solid rgba(96,165,250,0.35)' }}
-              animate={{ scale: [1, 1.7], opacity: [0.6, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
-            />
-            <motion.span
-              className="absolute inset-0 rounded-full"
-              style={{ border: '1px solid rgba(96,165,250,0.20)' }}
-              animate={{ scale: [1, 2.2], opacity: [0.5, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: 0.8 }}
-            />
-          </>
-        )}
-
-        <div className="relative z-10 flex items-end gap-[3.5px]" style={{ height: 18 }}>
-          {([0.55, 1, 0.72] as const).map((base, i) => (
-            <motion.span
-              key={i}
-              className="block w-[3px] rounded-full"
-              style={{
-                background: playing ? 'linear-gradient(to top, #2563EB, #60A5FA)' : 'var(--text-3)',
-                minHeight: 3,
-              }}
-              animate={
-                playing
-                  ? { height: [base * 7, base * 18, base * 11, base * 16, base * 6, base * 18] }
-                  : { height: base * 10 }
-              }
-              transition={
-                playing
-                  ? { duration: 1.8 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }
-                  : { duration: 0.35 }
-              }
-            />
-          ))}
-        </div>
-      </motion.button>
-    </motion.div>
+      <span className="flex h-3 items-end gap-[2px]" aria-hidden>
+        {[0.5, 1, 0.7, 0.85].map((base, i) => (
+          <motion.span
+            key={i}
+            className={`block w-[2px] ${playing ? 'bg-accent' : 'bg-ink-3'}`}
+            animate={playing ? { height: [base * 4, base * 12, base * 6, base * 11, base * 4] } : { height: 2 }}
+            transition={playing ? { duration: 1.4 + i * 0.25, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.3 }}
+          />
+        ))}
+      </span>
+      <span className="hidden sm:inline">
+        Sound <span className={playing ? 'text-ink' : 'text-ink-3'}>{playing ? 'On' : 'Off'}</span>
+      </span>
+    </motion.button>
   );
 }
