@@ -2,7 +2,7 @@
 
 import { motion, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { EASE, Lines, useChapterProgress } from './ui';
+import { ArrowUpRight, EASE, Lines, useChapterProgress } from './ui';
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -39,8 +39,20 @@ export default function Hero() {
               transition={{ delay: 0.9, duration: 1, ease: EASE }}
             >
               <span className="h-px w-10 bg-accent shadow-[0_0_10px_rgba(140,203,255,0.9)]" aria-hidden />
-              Architect of digital ventures
+              I build web, mobile & AI products for companies
             </motion.p>
+
+            {/* Straight to the contact section */}
+            <motion.div
+              className="mt-8"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.15, duration: 1, ease: EASE }}
+            >
+              <a href="#contact" className="enter-btn enter-btn-primary !h-[52px] !min-w-0 !px-7">
+                Contact me <ArrowUpRight size={12} />
+              </a>
+            </motion.div>
           </div>
 
           <motion.a

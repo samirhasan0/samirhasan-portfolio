@@ -55,6 +55,21 @@ export const projects: Project[] = [
     url: 'https://autoworx.tech/',
   },
   {
+    id: 'renderide',
+    name: 'RendeRide',
+    year: '2026',
+    role: 'Product Lead',
+    category: '3D visualizer · SaaS',
+    summary:
+      'A photoreal 3D wrap visualizer that wrap shops put on their own website — customers pick a car, try real film colours from brands like 3M and Avery Dennison, and send a quote request with the exact colour attached.',
+    highlights: ['Product Lead', 'Real-time 3D in the browser', 'Built for wrap shops'],
+    status: 'Live',
+    image: '/work/renderide.jpg',
+    tone: '#2DD4BF',
+    frame: 'browser',
+    url: 'https://renderide.up.railway.app/',
+  },
+  {
     id: 'grs-certification',
     name: 'GRS Certification',
     year: '2026',
@@ -147,20 +162,16 @@ export const projects: Project[] = [
   },
 ];
 
-/** Footer ventures, as listed on samirhasan.com */
-export const ventures = [
-  { label: 'Luminar Technology', href: 'https://luminartechnology.com' },
-  { label: 'AutoWorx', href: 'https://autoworx.tech/' },
-  { label: 'Prenda Solution', href: 'https://prendasolution.com' },
-  { label: 'BanglaReels', href: 'https://banglareels.com' },
-  { label: 'Memorica', href: 'https://www.memorica.events' },
-];
+/** Footer work list: every project above, linked to where it lives */
+export const workLinks = projects.map((p) => ({ label: p.name, href: (p.url ?? p.appStoreUrl ?? p.playStoreUrl)! }));
+
+export const WHATSAPP = { number: '+880 1795-992495', href: 'https://wa.me/8801795992495' };
 
 export const LINKEDIN = { handle: 'samir-hasan', href: 'https://www.linkedin.com/in/samir-hasan-18048524a/' };
 
 export const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samir-hasan-18048524a/' },
-  { label: 'Instagram', href: 'https://www.instagram.com/samir_hasann_/' },
+  { label: 'WhatsApp', href: WHATSAPP.href },
 ];
 
 export const EMAIL = 'hello@samirhasan.com';

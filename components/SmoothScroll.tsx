@@ -17,9 +17,9 @@ export let lenisInstance: Lenis | null = null;
 /** [section id, number of beats] for the pinned chapters, in page order. */
 const BEATS: [string, number][] = [
   ['manifesto', 1],
-  ['principles', 4],
+  ['principles', 1],
   ['journey', 3],
-  ['vision', 5],
+  ['vision', 1],
 ];
 
 function docTop(el: HTMLElement) {

@@ -27,10 +27,6 @@ export default function Journey() {
             <br />
             <span className="hl">Three chapters.</span>
           </h2>
-          <p className="mt-4 max-w-[480px] text-[14px] font-light leading-[1.65] text-ink-2 md:text-[15px] short:hidden">
-            A non-linear path from a curious teenager in Dhaka to the CEO of a technology holding company — told
-            honestly.
-          </p>
 
           <div className="relative mt-7 min-h-[214px] md:mt-9 md:min-h-[270px] short:mt-5 short:min-h-[176px] squat:min-h-[150px]">
             <AnimatePresence mode="wait">

@@ -60,7 +60,7 @@ function Media({ p, large }: { p: Project; large?: boolean }) {
               <span className="mx-auto font-mono text-[9px] text-ink-3">{host(p.url)}</span>
             </div>
             <div className="relative aspect-[16/10]">
-              <Image src={p.image} alt={`${p.name} website`} fill sizes="(min-width: 768px) 70vw, 100vw" className="object-cover object-top" />
+              <Image src={p.image} alt={`${p.name} website`} fill sizes={large ? '(min-width: 768px) 900px, 100vw' : '(min-width: 768px) 460px, 100vw'} className="object-cover object-top" />
             </div>
           </div>
         </div>
@@ -197,7 +197,7 @@ function Detail({ p, onClose }: { p: Project; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-labelledby={`title-${p.id}`}>
       <motion.div
-        className="absolute inset-0 bg-bg/80 backdrop-blur-xl"
+        className="absolute inset-0 bg-bg/92"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -220,7 +220,7 @@ function Detail({ p, onClose }: { p: Project; onClose: () => void }) {
             <button
               ref={closeRef}
               onClick={onClose}
-              className="label absolute right-5 top-5 z-10 flex h-10 items-center gap-2 border border-line-3 bg-bg/60 px-4 text-ink backdrop-blur-md transition-colors hover:bg-ink hover:text-bg md:right-7 md:top-7"
+              className="label absolute right-5 top-5 z-10 flex h-10 items-center gap-2 border border-line-3 bg-bg/85 px-4 text-ink transition-colors hover:bg-ink hover:text-bg md:right-7 md:top-7"
               aria-label="Close"
             >
               Close
@@ -295,8 +295,7 @@ function Intro() {
         <span className="hl">I’ve built.</span>
       </h2>
       <p className="mt-6 max-w-[360px] text-[16px] font-light leading-[1.65] text-ink">
-        Six companies across compute, robotics, AI, and capital. Each one is an independent experiment —
-        unified by a shared approach to craft.
+        Real products, live right now. Open any one to see it.
       </p>
       <p className="label mt-6 hidden md:block">Keep scrolling →</p>
     </div>

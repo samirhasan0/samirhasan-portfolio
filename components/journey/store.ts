@@ -8,9 +8,9 @@ export const SCENES = [
   { id: 'top', label: 'Intro', shapes: 1 },
   { id: 'manifesto', label: 'About', shapes: 1 },
   { id: 'work', label: 'Work', shapes: 1 },
-  { id: 'principles', label: 'Conviction', shapes: 4 },
+  { id: 'principles', label: 'Conviction', shapes: 1 },
   { id: 'journey', label: 'Journey', shapes: 3 }, // one company logo per chapter
-  { id: 'vision', label: 'Vision', shapes: 5 }, // globe, one figure per horizon, globe,
+  { id: 'vision', label: 'Vision', shapes: 1 }, // globe
   { id: 'contact', label: 'Contact', shapes: 1 },
 ] as const;
 

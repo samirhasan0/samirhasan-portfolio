@@ -833,17 +833,10 @@ export function buildShapes(count: number, family?: string, logos: LogoMask[] = 
     crystal(count), // intro
     portrait(count, face, family), // manifesto — Samir in particles
     galaxy(count), // work
-    text(count, '</>', family, 0.82), // principles · craft
-    gear(count), // principles · discipline
-    terminal(count), // principles · velocity
-    chip(count), // principles · intelligence
+    text(count, '</>', family, 0.82), // principles
     logo(count, logos[0], 31), // journey · Levant IT Solution (2021)
     logo(count, logos[1], 32), // journey · Autoworx (2023)
     logo(count, logos[2], 33), // journey · Luminar Technology (2025)
-    globe(count), // vision · intro
-    layers(count), // vision · H1 the operating layer
-    aiSpark(count), // vision · H2 ambient intelligence
-    civic(count), // vision · H3 new civic infrastructure
     globe(count), // vision · founder letter
     ring(count), // contact
   ];

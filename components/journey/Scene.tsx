@@ -47,31 +47,15 @@ function shapeRotation(i: number, t: number, out: THREE.Matrix3) {
       tmpM.makeRotationFromEuler(tmpE.set(1.08, 0, 0.28));
       tmpM2.makeRotationY(t * 0.06);
       return out.setFromMatrix4(tmpM.multiply(tmpM2));
-    // Tool icons face the viewer and sway; the gear turns on its own axis
     case 3: tmpE.set(Math.sin(t * 0.4) * 0.1, -0.3 + Math.sin(t * 0.3) * 0.32, 0); break; // </>
-    case 4:
-      tmpM.makeRotationFromEuler(tmpE.set(0.12, -0.35 + Math.sin(t * 0.25) * 0.2, 0));
-      tmpM2.makeRotationZ(t * 0.35);
-      return out.setFromMatrix4(tmpM.multiply(tmpM2));
-    case 5: tmpE.set(Math.sin(t * 0.35) * 0.08, -0.32 + Math.sin(t * 0.28) * 0.28, 0); break; // terminal
-    case 6: tmpE.set(0.35 + Math.sin(t * 0.3) * 0.1, -0.35 + Math.sin(t * 0.22) * 0.35, 0); break; // chip
     // Journey logos face the viewer and sway so the 3D depth shows
-    case 7:
-    case 8:
-    case 9: tmpE.set(Math.sin(t * 0.35 + i) * 0.1, -0.32 + Math.sin(t * 0.3 + i) * 0.38, 0); break;
-    case 10:
-    case 14:
+    case 4:
+    case 5:
+    case 6: tmpE.set(Math.sin(t * 0.35 + i) * 0.1, -0.32 + Math.sin(t * 0.3 + i) * 0.38, 0); break;
+    case 7: // globe
       tmpM.makeRotationZ(0.38);
       tmpM2.makeRotationY(t * 0.14);
       return out.setFromMatrix4(tmpM.multiply(tmpM2));
-    // Vision horizons: seen from slightly above, turning slowly so the depth reads
-    case 11: // platform layers: tipped toward the viewer so the slabs read like the layers icon
-      tmpM.makeRotationX(0.6 + Math.sin(t * 0.25) * 0.04);
-      tmpM2.makeRotationY(Math.PI / 4 + Math.sin(t * 0.18) * 0.3);
-      return out.setFromMatrix4(tmpM.multiply(tmpM2));
-    // AI sparkle and civic building face the viewer and sway, so their depth shows
-    case 12: tmpE.set(Math.sin(t * 0.3) * 0.08, -0.12 + Math.sin(t * 0.24) * 0.32, Math.sin(t * 0.2) * 0.05); break;
-    case 13: tmpE.set(0.14 + Math.sin(t * 0.25) * 0.04, -0.42 + Math.sin(t * 0.18) * 0.3, 0); break;
     default: tmpE.set(Math.sin(t * 0.3) * 0.25, Math.sin(t * 0.2) * 0.3, t * 0.12);
   }
   return out.setFromMatrix4(tmpM.makeRotationFromEuler(tmpE));
@@ -431,9 +415,10 @@ function Governor({ onDrop }: { onDrop: () => void }) {
 export type Tier = 'high' | 'low';
 
 export default function Scene({ family, mobile, tier, logos, face }: { family?: string; mobile: boolean; tier: Tier; logos: LogoMask[]; face?: PortraitMask }) {
-  const [level, setLevel] = useState(tier === 'low' ? 1 : 0);
+  // Phones and weaker machines start one step down (lower render resolution); the governor can go further
+  const [level, setLevel] = useState(tier === 'low' || mobile ? 1 : 0);
   const maxDpr = level === 0 ? 1.5 : level === 1 ? 1.25 : 1;
-  const count = mobile ? (tier === 'low' ? 8000 : 12000) : tier === 'low' ? 24000 : 40000;
+  const count = mobile ? (tier === 'low' ? 6000 : 9000) : tier === 'low' ? 18000 : 28000;
   return (
     <Canvas
       camera={{ position: [0, 0.15, 7], fov: 45, near: 0.1, far: 80 }}
@@ -445,7 +430,7 @@ export default function Scene({ family, mobile, tier, logos, face }: { family?: 
       {level < MAX_LEVEL && <Governor onDrop={() => setLevel((l) => Math.min(MAX_LEVEL, l + 1))} />}
       <Sky />
       <CameraRig />
-      <Dust count={mobile || tier === 'low' ? 500 : 1400} />
+      <Dust count={mobile || tier === 'low' ? 350 : 900} />
       <Sea />
       <Morph count={count} family={family} mobile={mobile} logos={logos} face={face} />
       {level < MAX_LEVEL ? (

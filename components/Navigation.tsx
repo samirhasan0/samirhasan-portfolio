@@ -35,9 +35,31 @@ export default function Navigation() {
         <div className="header-fade" aria-hidden />
         <div className="flex h-[82px] items-center justify-between px-[var(--gutter)] md:h-[94px]">
           <a href="#top" className="group flex items-center gap-3" aria-label="Samir Hasan — back to start">
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" className="text-ink transition-colors duration-500 group-hover:text-accent" aria-hidden>
-              <path d="M15 1.5 27.5 8.75v12.5L15 28.5 2.5 21.25V8.75L15 1.5Z" stroke="currentColor" strokeWidth="1.2" />
-              <path d="M15 8 21 11.5v7L15 22l-6-3.5v-7L15 8Z" fill="currentColor" opacity=".9" />
+            {/* Same "S" mark as the favicon (app/icon.svg) */}
+            <svg width="32" height="32" viewBox="0 0 32 32" className="transition-transform duration-500 ease-expo group-hover:scale-105" aria-hidden>
+              <defs>
+                <linearGradient id="logo-bg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#0F1A2E" />
+                  <stop offset="100%" stopColor="#0B1220" />
+                </linearGradient>
+                <linearGradient id="logo-blue" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#60A5FA" />
+                  <stop offset="100%" stopColor="#2563EB" />
+                </linearGradient>
+              </defs>
+              <rect width="32" height="32" rx="7" fill="url(#logo-bg)" />
+              <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none" stroke="rgba(96,165,250,0.30)" />
+              <text
+                x="16"
+                y="23"
+                textAnchor="middle"
+                fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                fontSize="22"
+                fontWeight="700"
+                fill="url(#logo-blue)"
+              >
+                S
+              </text>
             </svg>
             <span className="display text-[12px] leading-[1.05] tracking-[0.08em]">
               Samir
@@ -95,7 +117,7 @@ export default function Navigation() {
           <>
             <motion.div
               key="menu-scrim"
-              className="fixed inset-0 z-[45] bg-bg/60 backdrop-blur-[6px]"
+              className="fixed inset-0 z-[45] bg-bg/75"
               onClick={() => setOpen(false)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

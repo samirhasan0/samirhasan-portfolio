@@ -20,8 +20,8 @@ export default function IntroLoader({ onEnter }: Props) {
     document.documentElement.style.overflow = 'hidden';
     window.scrollTo(0, 0);
     const ctrl = animate(0, 100, {
-      delay: 0.5,
-      duration: 2.2,
+      delay: 0.2,
+      duration: 1.2,
       ease: [0.45, 0, 0.2, 1],
       onUpdate: (v) => setPct(Math.round(v)),
     });

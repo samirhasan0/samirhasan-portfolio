@@ -47,25 +47,6 @@ html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* Film grain */
-.grain {
-  pointer-events: none;
-  position: fixed;
-  inset: -50%;
-  z-index: 90;
-  opacity: 0.06;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 8s steps(10) infinite;
-}
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  30% { transform: translate(3%, -15%); }
-  50% { transform: translate(12%, 9%); }
-  70% { transform: translate(9%, 4%); }
-  90% { transform: translate(-1%, 7%); }
-}
-
 @layer components {
   .wrap {
     margin-inline: auto;
@@ -101,11 +82,11 @@ html.lenis body { height: auto; }
     text-shadow: 0 0 26px rgba(140, 203, 255, 0.55);
   }
 
+  /* Tinted panel. No backdrop blur: blurring the live 3D scene behind every panel on every frame
+     is the most expensive thing a page like this can do, so the panels are simply a little more solid. */
   .glass {
-    background: linear-gradient(180deg, rgba(14, 34, 72, 0.55), rgba(3, 11, 28, 0.6));
+    background: linear-gradient(180deg, rgba(12, 30, 66, 0.86), rgba(3, 11, 28, 0.9));
     border: 1px solid var(--line-2);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
   }
 
   /* Buttons */
@@ -205,9 +186,7 @@ html.lenis body { height: auto; }
 
   .enter-btn-ghost {
     color: var(--ink-2, #a3b8da);
-    background: linear-gradient(180deg, rgba(150, 190, 255, 0.09), rgba(150, 190, 255, 0.02));
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(20, 44, 92, 0.6), rgba(6, 16, 40, 0.6));
     box-shadow:
       inset 0 1px 0 rgba(205, 233, 255, 0.12),
       0 14px 40px -18px rgba(0, 0, 0, 0.9);
@@ -261,11 +240,7 @@ html.lenis body { height: auto; }
     inset: 0 0 -28px 0;
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(0, 3, 11, 0.82) 0%, rgba(0, 3, 11, 0.55) 55%, transparent 100%);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 3, 11, 0.94) 0%, rgba(0, 3, 11, 0.72) 55%, transparent 100%);
   }
   /* Fixed chrome steps back while a project is open */
   .hud { transition: opacity 0.4s var(--ease-expo); }
@@ -274,9 +249,7 @@ html.lenis body { height: auto; }
   /* Navigation menu panel */
   .menu-panel {
     border-radius: 6px;
-    background: linear-gradient(180deg, rgba(9, 24, 54, 0.78), rgba(2, 8, 22, 0.9));
-    -webkit-backdrop-filter: blur(28px) saturate(140%);
-    backdrop-filter: blur(28px) saturate(140%);
+    background: linear-gradient(180deg, rgba(9, 24, 54, 0.96), rgba(2, 8, 22, 0.97));
     box-shadow:
       inset 0 1px 0 rgba(205, 233, 255, 0.1),
       0 0 60px rgba(47, 123, 255, 0.12),
@@ -361,5 +334,5 @@ html.lenis body { height: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .grain, .live-dot::after { animation: none; }
+  .live-dot::after { animation: none; }
 }

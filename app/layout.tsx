@@ -41,7 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
       <body>
         {children}
-        <div className="grain" aria-hidden />
       </body>
     </html>
   );

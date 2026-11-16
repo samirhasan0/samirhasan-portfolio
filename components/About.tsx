@@ -104,16 +104,8 @@ const stats = [
   { v: '150+', k: 'Shipped' },
 ];
 
-const story = [
-  [
-    'I grew up believing that the best technology is invisible — it disappears into the fabric of how you think, work, and move through the world. That belief is the thread running through everything I’ve built.',
-    'At 19, I started my first company from a small studio in Dhaka. I was obsessed with two things: how good software could feel, and how few people were building with that as the primary constraint. Most tools were made to be functional. I wanted to make something beautiful.',
-  ],
-  [
-    'Today, Luminar Technology is a growing family of ventures I founded or co-created — each one an experiment in what a technology company can be when it takes taste as seriously as throughput. We build compute infrastructure, autonomous systems, applied AI, and the design language that holds it together.',
-    'I believe we’re at the beginning of the most interesting decade in technology. The teams that will matter are the ones building quietly, with conviction, at a level of craft the market hasn’t yet learned to demand.',
-  ],
-];
+const story =
+  'I started my first company at 19, from a small studio in Dhaka. Today I run Luminar Technology and build software products for clients around the world.';
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
@@ -153,17 +145,7 @@ export default function About() {
             ))}
           </dl>
 
-          <div className="mt-6 grid gap-x-8 gap-y-3.5 md:grid-cols-2">
-            {story.map((col, i) => (
-              <div key={i} className="flex flex-col gap-3.5">
-                {col.map((t) => (
-                  <p key={t.slice(0, 12)} className="text-[15px] font-light leading-[1.62] text-ink md:text-[clamp(13px,1.02vw,15px)]">
-                    {t}
-                  </p>
-                ))}
-              </div>
-            ))}
-          </div>
+          <p className="mt-6 max-w-[560px] text-[17px] font-light leading-[1.6] text-ink md:text-[clamp(16px,1.3vw,19px)]">{story}</p>
 
           <div className="mt-7 grid gap-6 border-t border-line-2 pt-6 md:grid-cols-[auto_1fr] md:items-center md:gap-10">
             <div className="grid grid-cols-3 gap-6 md:gap-8">

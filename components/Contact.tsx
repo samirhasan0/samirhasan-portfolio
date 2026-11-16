@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState, type FormEvent } from 'react';
-import { EMAIL, LINKEDIN, socials, ventures } from './data';
+import { EMAIL, LINKEDIN, WHATSAPP, socials, workLinks } from './data';
 import { ArrowRight, ArrowUpRight, ChapterLabel, DhakaTime, EASE, Lines } from './ui';
 
 const reasons = ['Start a project', 'Partnership', 'Venture pitch', 'Just say hi'];
@@ -80,13 +80,13 @@ export default function Contact() {
               </div>
             </div>
             <p className="max-w-[380px] text-[16px] leading-[1.65] text-ink-2">
-              I read everything personally. Short messages with clear intent get the fastest responses.
-              Pitches, proposals, and introductions are all welcome.
+              I read every message myself.
             </p>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-5">
               {[
                 { k: 'Direct', v: EMAIL, href: `mailto:${EMAIL}` },
                 { k: 'LinkedIn', v: LINKEDIN.handle, href: LINKEDIN.href },
+                { k: 'WhatsApp', v: WHATSAPP.number, href: WHATSAPP.href },
                 { k: 'Ventures', v: 'luminartechnology.com', href: 'https://luminartechnology.com' },
                 { k: 'Location', v: 'Dhaka, Bangladesh' },
                 { k: 'Local time', v: <DhakaTime /> },
@@ -181,7 +181,7 @@ export default function Contact() {
       </div>
 
       {/* Footer — as on samirhasan.com */}
-      <footer className="relative border-t border-line bg-[linear-gradient(180deg,rgba(0,3,11,0.55),rgba(0,3,11,0.92))] px-[var(--gutter)] pb-8 pt-14 backdrop-blur-xl">
+      <footer className="relative border-t border-line bg-[linear-gradient(180deg,rgba(0,3,11,0.82),rgba(0,3,11,0.96))] px-[var(--gutter)] pb-8 pt-14">
         <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-10 md:grid-cols-12">
           <div className="col-span-2 md:col-span-6">
             <p className="display hl w-fit text-[clamp(26px,2.6vw,36px)] tracking-[0.04em]">Samir Hasan</p>
@@ -202,10 +202,10 @@ export default function Contact() {
               ))}
             </ul>
           </nav>
-          <nav className="md:col-span-4" aria-label="Ventures">
-            <p className="label mb-4">Ventures</p>
-            <ul className="flex flex-col gap-2.5">
-              {ventures.map((v) => (
+          <nav className="md:col-span-4" aria-label="Work">
+            <p className="label mb-4">Work</p>
+            <ul className="flex flex-col gap-2.5 md:grid md:grid-cols-2 md:gap-x-6">
+              {workLinks.map((v) => (
                 <li key={v.label}>
                   <a href={v.href} target="_blank" rel="noopener noreferrer" className="u-link text-[14px] text-ink-2 hover:text-ink">
                     {v.label}
